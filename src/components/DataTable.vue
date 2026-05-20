@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { ref, watch, nextTick } from 'vue'
+import { gsap } from 'gsap'
+import { motion, prefersReducedMotion } from '@/composables/useMotion'
+
 interface Column {
   key: string
   label: string
@@ -22,7 +26,7 @@ interface Props {
   clickable?: boolean
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   loading: false,
   hasNext: false,
   hasPrev: false,
@@ -46,6 +50,44 @@ function getCellValue(row: Record<string, unknown>, col: Column): string {
 function visibilityClass(col: Column): string {
   return col.hideOnMobile ? 'hidden sm:table-cell' : ''
 }
+
+// --- Row stagger reveal -----------------------------------------------------
+// Animate rows in when the rows array changes from empty/loading to populated,
+// or when its identity changes (page change, filter apply). Cap stagger so
+// large pages don't take forever to settle.
+
+const tbodyRef = ref<HTMLTableSectionElement | null>(null)
+
+watch(
+  () => [props.loading, props.rows],
+  async ([loading, rows]) => {
+    if (loading) return
+    const rowList = rows as Record<string, unknown>[]
+    if (!rowList.length) return
+    if (prefersReducedMotion()) return
+
+    await nextTick()
+    const els = tbodyRef.value?.querySelectorAll<HTMLTableRowElement>('tr[data-row]')
+    if (!els || !els.length) return
+
+    // Cap total stagger window so 50-row pages still finish in < 0.5s.
+    const perRow = Math.min(0.025, 0.4 / els.length)
+
+    gsap.fromTo(
+      els,
+      { opacity: 0, y: 4 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: motion.short,
+        ease: motion.ease,
+        stagger: perRow,
+        clearProps: 'opacity,transform',
+      },
+    )
+  },
+  { flush: 'post' },
+)
 </script>
 
 <template>
@@ -64,7 +106,7 @@ function visibilityClass(col: Column): string {
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody ref="tbodyRef">
           <tr v-if="loading">
             <td :colspan="columns.length" role="status" aria-live="polite" class="px-3 py-8 text-center text-xs text-phosphor-faint">
               &gt;&gt;&gt; LOADING...
@@ -79,6 +121,7 @@ function visibilityClass(col: Column): string {
             v-else
             v-for="(row, i) in rows"
             :key="i"
+            data-row
             class="border-b border-crt-border last:border-b-0 transition-colors"
             :class="[clickable ? 'cursor-pointer hover:bg-crt-surface' : '']"
             @click="clickable && emit('row-click', row)"

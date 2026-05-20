@@ -13,6 +13,7 @@ import {
   Legend,
 } from 'chart.js'
 import { overviewApi, type TimeseriesMetric, type TimeseriesRange, type StatValue } from '@/lib/api-overview'
+import { makeLineChartAnimation } from '@/lib/chart-animations'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler, Legend)
 
@@ -132,6 +133,7 @@ const chartDataCombined = computed(() => {
 const singleChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
+  animation: makeLineChartAnimation(),
   plugins: {
     legend: { display: false },
     tooltip: {
@@ -159,6 +161,7 @@ const singleChartOptions = {
 const combinedChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
+  animation: makeLineChartAnimation(),
   plugins: {
     legend: {
       display: true,

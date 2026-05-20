@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { Bar } from 'vue-chartjs'
 import { type TooltipItem } from 'chart.js'
 import '@/lib/chart-setup'
+import { makeHorizontalBarAnimation } from '@/lib/chart-animations'
 import { formatIDR } from '@/lib/format-delta'
 import type { RevenueBreakdownItem } from '@/lib/api-ledger'
 
@@ -47,7 +48,7 @@ const chartOptions = {
   indexAxis: 'y' as const,
   responsive: true,
   maintainAspectRatio: false,
-  animation: false as const,
+  animation: makeHorizontalBarAnimation(),
   plugins: {
     legend: { display: false },
     tooltip: {
