@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# TypeScript build info
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vite
+vite.config.d.ts
+vite.config.js

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "vue-testing-best-practices": {
+      "source": "hyf0/vue-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vue-testing-best-practices/SKILL.md",
+      "computedHash": "743e11d7e5eaea83aead5853200df531328036f0cb7009d70f525626292f12d2"
+    }
+  }
+}

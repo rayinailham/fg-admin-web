@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/*
+ * FutureGuide Admin — Calm Professional palette.
+ *
+ * Brand hex: #0F766E (teal-700) — psychology / wellness convention.
+ * Scale generated with HSL lightness sweep (color-palette skill).
+ * Surfaces use neutral slate; teal reserved for brand, active nav,
+ * primary actions, and focus rings ("minimal brand" pattern).
+ *
+ * Token NAMES preserved (crt / phosphor / hazard / terminal-green)
+ * so existing Tailwind classes across 30+ pages keep working.
+ */
+@theme {
+  /* --- Brand scale (teal) --- */
+  --color-brand-50:  #F0FDFA;
+  --color-brand-100: #CCFBF1;
+  --color-brand-200: #99F6E4;
+  --color-brand-300: #5EEAD4;
+  --color-brand-400: #2DD4BF;
+  --color-brand-500: #14B8A6;
+  --color-brand-600: #0D9488;
+  --color-brand-700: #0F766E;
+  --color-brand-800: #115E59;
+  --color-brand-900: #134E4A;
+  --color-brand-950: #042F2E;
+
+  /* --- Surface (neutral slate) --- */
+  --color-crt:         #F8FAFC; /* page background — slate-50  */
+  --color-crt-raised:  #FFFFFF; /* cards, modals, top of stack  */
+  --color-crt-surface: #F1F5F9; /* table headers, sidebar tint — slate-100 */
+  --color-crt-border:  #E2E8F0; /* default border — slate-200 */
+
+  /* --- Text — neutral, generous contrast --- */
+  --color-phosphor:       #0F172A; /* primary text — slate-900 (17:1)  */
+  --color-phosphor-dim:   #475569; /* secondary    — slate-600 (7.5:1) */
+  --color-phosphor-faint: #64748B; /* tertiary     — slate-500 (4.7:1) */
+
+  /* --- Semantic accent (used as `hazard` for legacy reasons) --- */
+  --color-hazard:     #0F766E; /* brand-700 — primary action + active nav */
+  --color-hazard-dim: #115E59; /* brand-800 — hover state                  */
+
+  /* --- Real destructive (red), available where genuinely needed --- */
+  --color-danger:     #DC2626; /* red-600 */
+  --color-danger-dim: #B91C1C; /* red-700 */
+
+  /* --- Success --- */
+  --color-terminal-green: #16A34A; /* green-600 */
+
+  /* --- Typography --- */
+  --font-mono:    "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --font-heading: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans:    "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-crt-border);
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+    letter-spacing: 0;
+    background-color: var(--color-crt);
+    color: var(--color-phosphor);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  code, kbd, samp, pre,
+  .font-mono,
+  table td.font-mono,
+  table th.font-mono {
+    font-family: var(--font-mono);
+    letter-spacing: 0;
+  }
+
+  /* Selection — brand tint, gentle */
+  ::selection {
+    background-color: var(--color-brand-200);
+    color: var(--color-phosphor);
+  }
+
+  /* Scrollbars — visible without being heavy */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-crt);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-crt-border);
+    border: 2px solid var(--color-crt);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-phosphor-faint);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-hazard);
+    outline-offset: 2px;
+  }
+
+  input, select, textarea, button {
+    font-family: inherit;
+    color: inherit;
+  }
+
+  /*
+   * iOS Safari auto-zooms when a focused form control has font-size < 16px.
+   * Force 16px on form controls below the `sm` breakpoint (640px) to avoid
+   * the zoom dance on every input tap. Above sm we let the existing
+   * Tailwind text-xs/text-[11px] utilities take over for desktop density.
+   */
+  @media (max-width: 639px) {
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+      font-size: 16px;
+    }
+  }
+
+  /* Above the sm breakpoint, controls inherit the size set on them. */
+  @media (min-width: 640px) {
+    input, select, textarea, button {
+      font-size: inherit;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-phosphor);
+  }
+}
+
+@layer components {
+  .heading-macro {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--color-phosphor);
+  }
+
+  .label-section {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-phosphor-faint);
+  }
+}
+
+.scanline-overlay { display: none; }
