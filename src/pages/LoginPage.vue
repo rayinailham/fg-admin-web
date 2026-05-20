@@ -38,6 +38,9 @@ async function handleLogin() {
 
 <template>
   <div class="w-full max-w-sm mx-auto border border-crt-border bg-crt-raised p-6 sm:p-8 shadow-sm">
+    <div class="flex justify-center mb-6">
+      <img src="/logo-fg.png" alt="FutureGuide" class="w-16 h-16 bg-white p-1" />
+    </div>
     <div class="heading-macro text-2xl text-hazard mb-1">Access</div>
     <div class="text-[12px] text-phosphor-faint mb-6 sm:mb-8">Admin authentication required</div>
 

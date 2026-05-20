@@ -55,9 +55,12 @@ function isActive(path: string): boolean {
     aria-label="Primary navigation"
   >
     <div class="sidebar-header px-4 py-5 flex items-start justify-between gap-2">
-      <div>
-        <div class="heading-macro text-lg tracking-tight sidebar-title">FutureGuide</div>
-        <div class="text-[11px] mt-1 tracking-wider sidebar-subtitle">ADMIN TERMINAL</div>
+      <div class="flex items-center gap-2.5">
+        <img src="/logo-fg.png" alt="FutureGuide" class="w-8 h-8 bg-white p-0.5" />
+        <div>
+          <div class="heading-macro text-lg tracking-tight sidebar-title">FutureGuide</div>
+          <div class="text-[11px] mt-1 tracking-wider sidebar-subtitle">ADMIN TERMINAL</div>
+        </div>
       </div>
       <button
         type="button"

@@ -23,3 +23,5 @@ Thumbs.db
 # Vite
 vite.config.d.ts
 vite.config.js
+
+.vercel
