@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
+import { gsap } from 'gsap'
 import Sidebar from '@/components/Sidebar.vue'
 import Topbar from '@/components/Topbar.vue'
+import { motion, prefersReducedMotion } from '@/composables/useMotion'
 
 const sidebarOpen = ref(false)
 const route = useRoute()
@@ -18,6 +20,46 @@ function openSidebar() {
 
 function closeSidebar() {
   sidebarOpen.value = false
+}
+
+// --- Route transitions (GSAP JS hooks on Vue <Transition>) ---
+// Mode = "out-in" so the leaving page finishes before the next mounts.
+// Keep the curve consistent with motion.short / power2.out everywhere.
+
+function onPageEnter(el: Element, done: () => void) {
+  if (prefersReducedMotion()) {
+    gsap.set(el, { opacity: 1, y: 0 })
+    done()
+    return
+  }
+  gsap.fromTo(
+    el,
+    { opacity: 0, y: 6 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: motion.short,
+      ease: motion.ease,
+      onComplete: () => {
+        gsap.set(el, { clearProps: 'opacity,transform' })
+        done()
+      },
+    },
+  )
+}
+
+function onPageLeave(el: Element, done: () => void) {
+  if (prefersReducedMotion()) {
+    done()
+    return
+  }
+  gsap.to(el, {
+    opacity: 0,
+    y: -4,
+    duration: 0.16,
+    ease: motion.easeIn,
+    onComplete: done,
+  })
 }
 </script>
 
@@ -44,7 +86,16 @@ function closeSidebar() {
     <div class="flex-1 flex flex-col min-w-0">
       <Topbar @open-sidebar="openSidebar" />
       <main id="main-content" class="flex-1 p-3 sm:p-4 lg:p-6">
-        <RouterView />
+        <RouterView v-slot="{ Component, route: r }">
+          <Transition
+            mode="out-in"
+            :css="false"
+            @enter="onPageEnter"
+            @leave="onPageLeave"
+          >
+            <component :is="Component" :key="r.fullPath" />
+          </Transition>
+        </RouterView>
       </main>
     </div>
   </div>
