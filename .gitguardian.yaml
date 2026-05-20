@@ -1,0 +1,23 @@
+version: 2
+
+paths-ignore:
+  - "**/*.test.ts"
+  - "docs/**/*.md"
+
+matches-ignore:
+  - name: "test password placeholder"
+    match: "password123"
+  - name: "doc password example NewP@ss456"
+    match: "NewP@ss456"
+  - name: "doc password example TempP@ss789"
+    match: "TempP@ss789"
+  - name: "doc password example NewSecureP@ss123"
+    match: "NewSecureP@ss123"
+  - name: "test password OldP@ss123"
+    match: "OldP@ss123"
+  - name: "test password AutoGen@123"
+    match: "AutoGen@123"
+  - name: "test password Custom@Pass1"
+    match: "Custom@Pass1"
+  - name: "test password NewP@ss456!"
+    match: "NewP@ss456!"
