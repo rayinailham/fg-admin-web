@@ -212,6 +212,7 @@ const columns = [
   { key: 'user_name', label: 'USER' },
   { key: 'school_name', label: 'SCHOOL', format: (v: unknown) => (v as string) || '\u2014' },
   { key: 'status', label: 'STATUS', class: 'w-24', format: (v: unknown) => (v as string).toUpperCase() },
+  { key: 'model_used', label: 'MODEL', class: 'w-40', format: (v: unknown) => (v as string) || '\u2014' },
   { key: 'submitted_at', label: 'SUBMITTED', class: 'w-36', format: (v: unknown) => (v as string).slice(0, 16).replace('T', ' ') },
 ]
 </script>
@@ -344,6 +345,7 @@ const columns = [
                 <td class="px-3 py-2 text-phosphor">{{ row.user_name }}</td>
                 <td class="px-3 py-2 text-phosphor">{{ row.school_name || '\u2014' }}</td>
                 <td class="px-3 py-2 text-phosphor w-24">{{ row.status.toUpperCase() }}</td>
+                <td class="px-3 py-2 text-phosphor w-40 font-mono text-[11px]">{{ row.model_used || '\u2014' }}</td>
                 <td class="px-3 py-2 text-phosphor">{{ row.submitted_at.slice(0, 16).replace('T', ' ') }}</td>
               </tr>
             </tbody>
