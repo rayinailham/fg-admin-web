@@ -35,14 +35,18 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
   if (status === 401) {
     auth.logout()
-    router.push({ name: 'login' })
+    if (router.currentRoute.value.name !== 'login') {
+      router.replace({ name: 'login' }).catch(() => {})
+    }
     throw { message: 'Sesi berakhir', status } satisfies ApiError
   }
 
   if (status === 403) {
     toast.error('Session expired or permissions changed')
     auth.logout()
-    router.push({ name: 'login' })
+    if (router.currentRoute.value.name !== 'login') {
+      router.replace({ name: 'login' }).catch(() => {})
+    }
     throw { message, status } satisfies ApiError
   }
 

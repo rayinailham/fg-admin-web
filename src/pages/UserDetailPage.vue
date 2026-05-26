@@ -41,12 +41,18 @@ function closeModal() {
   activeModal.value = null
 }
 
+function invalidateUserQueries() {
+  queryClient.invalidateQueries({ queryKey: ['user', userId.value] })
+  queryClient.invalidateQueries({ queryKey: ['user-transactions', userId.value] })
+  queryClient.invalidateQueries({ queryKey: ['users'] })
+}
+
 async function handleAction(action: () => Promise<{ message: string }>, successMsg?: string) {
   actionLoading.value = true
   try {
     const res = await action()
     toast.success(successMsg || res.message)
-    queryClient.invalidateQueries({ queryKey: ['user', userId.value] })
+    invalidateUserQueries()
     closeModal()
   } catch (e) {
     toast.error((e as ApiError).message || 'Terjadi kesalahan')
@@ -432,7 +438,7 @@ function changeTxFilter(type: string | undefined) {
       :open="activeModal === 'edit'"
       :user="user"
       @close="closeModal"
-      @saved="queryClient.invalidateQueries({ queryKey: ['user', userId] }); closeModal()"
+      @saved="invalidateUserQueries(); closeModal()"
     />
 
     <TokenModal
@@ -440,7 +446,7 @@ function changeTxFilter(type: string | undefined) {
       :user-id="userId"
       mode="grant"
       @close="closeModal"
-      @saved="queryClient.invalidateQueries({ queryKey: ['user', userId] }); closeModal()"
+      @saved="invalidateUserQueries(); closeModal()"
     />
 
     <TokenModal
@@ -448,7 +454,7 @@ function changeTxFilter(type: string | undefined) {
       :user-id="userId"
       mode="deduct"
       @close="closeModal"
-      @saved="queryClient.invalidateQueries({ queryKey: ['user', userId] }); closeModal()"
+      @saved="invalidateUserQueries(); closeModal()"
     />
 
     <ResetPasswordModal
